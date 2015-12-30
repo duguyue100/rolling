@@ -13,9 +13,6 @@ Email : duguyue100@gmail.com
 import numpy as np;
 import numpy.linalg as LA;
 import h5py;
-import matplotlib;
-matplotlib.use('tkagg');
-import matplotlib.pyplot as plt;
 
 from fuel.datasets.hdf5 import H5PYDataset
 
@@ -48,8 +45,8 @@ n_test=num_samples*0.3;
 f=h5py.File("../data/rf_data.hdf5", mode="w");
 
 features=f.create_dataset("features",
-                          shape=X.shape,
-                          dtype="float32");
+                         shape=X.shape,
+                         dtype="float32");
 
 targets=f.create_dataset("targets",
                          shape=y.shape,
