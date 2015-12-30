@@ -14,7 +14,7 @@ import theano.tensor as T;
 
 from blocks.bricks import MLP;
 from blocks.bricks import Linear, Rectifier, Tanh;
-from blocks.bricks.cost import SquaredError;
+from blocks.bricks.cost import SquaredError, AbsoluteError;
 from blocks.initialization import Constant, IsotropicGaussian;
 from blocks.graph import ComputationGraph;
 from blocks.algorithms import GradientDescent, Adam, AdaGrad;
@@ -30,7 +30,7 @@ from fuel.datasets.hdf5 import H5PYDataset;
 exp=Experiment("Rolling Force - FeedForward Regression")
 
 @exp.config
-def ff_lstm_config():
+def rf_ff_config():
   data_name="";
   in_dim=0;
   hid_dim=0;
@@ -39,7 +39,7 @@ def ff_lstm_config():
   num_epochs=0;
   
 @exp.automain
-def ff_lstm_experiment(data_name,
+def rf_ff_experiment(data_name,
                        in_dim,
                        hid_dim,
                        out_dim,
@@ -57,13 +57,13 @@ def ff_lstm_experiment(data_name,
   X=T.matrix("features");
   y=T.matrix("targets");
   
-  net=MLP(activations=[Tanh(), Rectifier()],
-          dims=[in_dim, hid_dim, out_dim],
+  net=MLP(activations=[Tanh(), Rectifier(), Rectifier(), Rectifier(),],
+          dims=[in_dim, hid_dim, hid_dim, hid_dim, out_dim],
           weights_init=IsotropicGaussian(),
           biases_init=Constant(0.01));
   y_hat=net.apply(X);
   
-  cost=SquaredError().apply(y, y_hat);
+  cost=AbsoluteError().apply(y, y_hat);
   cost.name="cost";
   
   net.initialize();
