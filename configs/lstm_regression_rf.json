@@ -1,7 +1,7 @@
 {
 	"data_name": "../data/rf_data_PCA.hdf5",
 	"in_dim": 4,
-	"lstm_dim": 100,
+	"lstm_dim": 200,
 	"out_dim": 1,
 	"batch_size": 200,
 	"num_epochs": 200

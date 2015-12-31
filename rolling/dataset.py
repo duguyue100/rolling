@@ -6,6 +6,7 @@ Email : duguyue100@gmail.com
 """
 
 import numpy as np;
+from fuel.datasets.hdf5 import H5PYDataset;
 
 def load_rf_data(filename):
   """
@@ -63,6 +64,47 @@ def remove_rf_outliers(X, y):
   data=data[:-(data.shape[0]%1000), :]
   
   return data[:, :-1], data[:,-1];
+
+def transform_sequence(data_name,
+                       which_sets,
+                       batch_size):
+  """
+  Transform data to appropriate sequence for LSTM network
+  
+  Parameters
+  ----------
+  data_name : string
+      name of the dataset
+  which_sets : string
+      which sets is loading (train, test)
+  batch_size : int
+      size of each batch
+      
+  Returns
+  -------
+  """
+  
+  data_f=H5PYDataset(data_name, which_sets=(which_sets,), 
+                     sources=['features'], load_in_memory=True);
+    
+  data_t=H5PYDataset(data_name, which_sets=(which_sets,), 
+                     sources=['targets'], load_in_memory=True);
+
+  data_f=data_f.data_sources;
+  data_f=data_f[0].reshape(1, data_f[0].shape[0], data_f[0].shape[1]);
+  data_t=data_t.data_sources;
+  data_t=data_t[0];
+  
+  num_batches=data_f.shape[1]/batch_size;
+
+  df=[]; dt=[];
+  for i in xrange(num_batches):
+    df.append(data_f[:, i*batch_size:(i+1)*batch_size, :]);
+    dt.append(data_t[i*batch_size:(i+1)*batch_size, :]);
+  
+  return {"features": df, "targets": dt};
+
+
 
 
 
