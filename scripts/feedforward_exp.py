@@ -10,6 +10,7 @@ sys.path.append("..");
 
 from sacred import Experiment;
 
+import theano;
 import theano.tensor as T;
 
 from blocks.bricks import MLP;
@@ -21,11 +22,15 @@ from blocks.algorithms import GradientDescent, Adam, AdaGrad;
 from blocks.extensions import FinishAfter, Printing, ProgressBar;
 from blocks.extensions.monitoring import (DataStreamMonitoring,
                                           TrainingDataMonitoring)
+from blocks.extensions.saveload import Checkpoint;
 from blocks.main_loop import MainLoop;
 
 from fuel.streams import DataStream;
 from fuel.schemes import SequentialScheme;
 from fuel.datasets.hdf5 import H5PYDataset;
+
+import rolling.dataset as ds;
+import rolling.draw as draw;
 
 exp=Experiment("Rolling Force - FeedForward Regression")
 
@@ -46,8 +51,8 @@ def rf_ff_experiment(data_name,
                        batch_size,
                        num_epochs):
   # load dataset
-  train_set=H5PYDataset(data_name, which_sets=("train",));
-  test_set=H5PYDataset(data_name, which_sets=("test", ));
+  train_set=H5PYDataset(data_name, which_sets=("train",), load_in_memory=True);
+  test_set=H5PYDataset(data_name, which_sets=("test", ), load_in_memory=True);
    
   stream_train=DataStream.default_stream(train_set,
                   iteration_scheme=SequentialScheme(train_set.num_examples, batch_size=batch_size));
@@ -86,3 +91,40 @@ def rf_ff_experiment(data_name,
                                    Printing(), ProgressBar()])
   
   main_loop.run()
+  
+  # Saving results
+  
+  ## construct experiment identifier
+  ## 1. RNN/Feedfoward
+  ## 2. number of hidden layers (optional)
+  ## 3. number of neurons
+  ## 4. learning method (optional)
+  ## 5. learning rate
+  ## 6. dropout/L2 regularization
+
+  ## TODO wirte a function that produce proper id
+  
+  ## prepare related functions
+  predict=theano.function([X], y_hat);
+  
+  ## prepare related data
+  train_features, train_targets=ds.get_data(train_set);
+  test_features, test_targets=ds.get_data(test_set);
+  
+  ## Prediction of result
+  train_predicted=predict(train_features);
+  test_predicted=predict(test_features);
+  
+  ## Get cost
+  cost=ds.get_cost_data(test_monitor, train_set.num_examples/batch_size, num_epochs);
+  
+  # Drawing
+  
+  draw.draw_epochs_cost(cost, "testing");
+  draw.draw_target_predicted(train_targets, train_predicted, "train_test");
+  draw.draw_target_predicted(test_targets, test_predicted, "test_test");
+  
+  
+  
+  
+  

@@ -104,6 +104,62 @@ def transform_sequence(data_name,
   
   return {"features": df, "targets": dt};
 
+def get_data(dataset):
+  """
+  Get features and targets from a specific dataset
+  
+  Parameters
+  ----------
+  dataset : Dataset object
+      dataset that can provide features and targets
+      
+  Returns
+  -------
+  features : arrary
+      features in the dataset
+  targets : array
+      1-d targets in the dataset
+  """
+  
+  handle = dataset.open();
+  data=dataset.get_data(handle, slice(0, dataset.num_examples));
+  features=data[0];
+  targets=data[1];
+  dataset.close(handle);
+  
+  return features, targets;
+
+
+def get_cost_data(monitor, num_batches, num_epochs):
+  """
+  Get cost value from a monitor
+  
+  Parameters
+  ----------
+  monitor : DataStreamMonitoring
+      Training monitor / testing monitor
+  num_batches : int
+      total number of batches
+  num_epochs : int
+      total number of epochs
+  
+  Returns
+  cost : array
+      2 rows array of cost
+      1st row : train_cost
+      2nd row : test_cost
+  """
+  
+  log=monitor.main_loop.log;
+  
+  cost=np.zeros((2, num_epochs));
+  
+  for i in xrange(num_epochs):
+    cost[0, i]=log[(i+1)*num_batches]['train_cost'];
+    cost[1, i]=log[(i+1)*num_batches]['test_cost'];
+
+  return cost;
+
 
 
 
