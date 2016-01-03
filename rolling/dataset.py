@@ -8,6 +8,8 @@ Email : duguyue100@gmail.com
 import cPickle as pickle;
 import numpy as np;
 from fuel.datasets.hdf5 import H5PYDataset;
+from fuel.schemes import SequentialScheme;
+from fuel.streams import DataStream;
 
 def load_rf_data(filename):
   """
@@ -104,6 +106,36 @@ def transform_sequence(data_name,
     dt.append(data_t[i*batch_size:(i+1)*batch_size, :]);
   
   return {"features": df, "targets": dt};
+
+def prepare_datastream(data_name,
+                       batch_size):
+  """
+  Prepare training and testing data stream
+  
+  Parameters
+  ----------
+  data_name : string
+      path of rolling force dataset
+  batch_size : int
+      size of each mini-batch data
+      
+  Returns
+  -------
+  stream_train : DataStream
+      training data stream
+  stream_test : DataStream
+      testing data stream
+  """
+  
+  train_set=H5PYDataset(data_name, which_sets=("train",), load_in_memory=True);
+  test_set=H5PYDataset(data_name, which_sets=("test", ), load_in_memory=True);
+   
+  stream_train=DataStream.default_stream(train_set,
+                  iteration_scheme=SequentialScheme(train_set.num_examples, batch_size=batch_size));
+  stream_test=DataStream.default_stream(test_set,
+                  iteration_scheme=SequentialScheme(test_set.num_examples, batch_size=batch_size));
+                  
+  return train_set, stream_train, test_set, stream_test;
 
 def get_data(dataset):
   """

@@ -6,6 +6,7 @@ Email : duguyue100@gmail.com
 """
 
 import sys;
+from blocks.graph import apply_dropout
 sys.path.append("..");
 
 from sacred import Experiment;
@@ -13,24 +14,15 @@ from sacred import Experiment;
 import theano;
 import theano.tensor as T;
 
-from blocks.bricks import MLP;
-from blocks.bricks import Linear, Rectifier, Tanh;
-from blocks.bricks.cost import SquaredError, AbsoluteError;
-from blocks.initialization import Constant, IsotropicGaussian;
-from blocks.graph import ComputationGraph;
-from blocks.algorithms import GradientDescent, Adam, AdaGrad;
 from blocks.extensions import FinishAfter, Printing, ProgressBar;
 from blocks.extensions.monitoring import (DataStreamMonitoring,
                                           TrainingDataMonitoring)
 from blocks.extensions.saveload import Checkpoint;
 from blocks.main_loop import MainLoop;
 
-from fuel.streams import DataStream;
-from fuel.schemes import SequentialScheme;
-from fuel.datasets.hdf5 import H5PYDataset;
-
 import rolling.dataset as ds;
 import rolling.draw as draw;
+import rolling.netconfigs as nc;
 
 exp=Experiment("Rolling Force - FeedForward Regression")
 
@@ -51,38 +43,21 @@ def rf_ff_experiment(data_name,
                      batch_size,
                      num_epochs):
   # load dataset
-  train_set=H5PYDataset(data_name, which_sets=("train",), load_in_memory=True);
-  test_set=H5PYDataset(data_name, which_sets=("test", ), load_in_memory=True);
-   
-  stream_train=DataStream.default_stream(train_set,
-                  iteration_scheme=SequentialScheme(train_set.num_examples, batch_size=batch_size));
-  stream_test=DataStream.default_stream(test_set,
-                  iteration_scheme=SequentialScheme(test_set.num_examples, batch_size=batch_size));            
-  
+  train_set, stream_train, test_set, stream_test=ds.prepare_datastream(data_name, batch_size);
+    
+  # setup network
   X=T.matrix("features");
-  y=T.matrix("targets");
-  
-  net=MLP(activations=[Tanh(), Rectifier(), Rectifier(), Rectifier(),],
-          dims=[in_dim, hid_dim, hid_dim, hid_dim, out_dim],
-          weights_init=IsotropicGaussian(),
-          biases_init=Constant(0.01));
+  y=T.matrix("targets");  
+  net=nc.setup_ff_network(in_dim, out_dim, 4, hid_dim);  
   y_hat=net.apply(X);
-  
-  cost=AbsoluteError().apply(y, y_hat);
-  cost.name="cost";
-  
+  cost, cg=nc.create_cg_and_cost(y, y_hat, "dropout");
   net.initialize();
   
-  cg = ComputationGraph(cost);
-  
-  algorithm = GradientDescent(cost=cost, parameters=cg.parameters,
-                              step_rule=AdaGrad());
-                              
+  algorithm=nc.setup_algorithms(cost, cg, "adagrad", 0.002);                              
   test_monitor = DataStreamMonitoring(variables=[cost],
                                       data_stream=stream_test, prefix="test")
   train_monitor = TrainingDataMonitoring(variables=[cost], prefix="train",
                                          after_epoch=True)
-  
   
   main_loop = MainLoop(algorithm=algorithm,
                        data_stream=stream_train,
@@ -123,8 +98,3 @@ def rf_ff_experiment(data_name,
   draw.draw_epochs_cost(cost, "testing");
   draw.draw_target_predicted(train_targets, train_predicted, "train_test");
   draw.draw_target_predicted(test_targets, test_predicted, "test_test");
-  
-  
-  
-  
-  
