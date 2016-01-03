@@ -45,11 +45,11 @@ def rf_ff_config():
   
 @exp.automain
 def rf_ff_experiment(data_name,
-                       in_dim,
-                       hid_dim,
-                       out_dim,
-                       batch_size,
-                       num_epochs):
+                     in_dim,
+                     hid_dim,
+                     out_dim,
+                     batch_size,
+                     num_epochs):
   # load dataset
   train_set=H5PYDataset(data_name, which_sets=("train",), load_in_memory=True);
   test_set=H5PYDataset(data_name, which_sets=("test", ), load_in_memory=True);

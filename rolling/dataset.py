@@ -5,6 +5,7 @@ Author: Yuhuang Hu
 Email : duguyue100@gmail.com
 """
 
+import cPickle as pickle;
 import numpy as np;
 from fuel.datasets.hdf5 import H5PYDataset;
 
@@ -160,9 +161,124 @@ def get_cost_data(monitor, num_batches, num_epochs):
 
   return cost;
 
+def create_exp_id(exp_network,
+                  num_layers,
+                  num_neurons,
+                  batch_size,
+                  num_epochs,
+                  learning_method,
+                  learning_rate,
+                  regularization):
+  """
+  Create identifier for particular experiment.
+  
+  Parameters
+  ----------
+  exp_network : string
+      RNN/Feedforward
+  num_layers : int
+      number of feedforward hidden layers
+  num_neurons : int
+      number of neurons for each hidden layers
+      fixed for simplify situation
+  batch_size : int
+      size of each mini-batch
+  num_epochs : int
+      total number of training epochs
+  learning_method : string
+      SGD, momentum SGD, AdaGrad, RMSprop
+  learning_rate : float
+      Learning rate of training algorithm
+  regularization : string
+      Dropout / L2 regularization
+      
+  Returns
+  -------
+  exp_id : string
+      experiment identifier
+  """
+  
+  exp_id=exp_network+"_";
+  exp_id=exp_id+str(num_layers)+"_";
+  exp_id=exp_id+str(num_neurons)+"_";
+  exp_id=exp_id+str(batch_size)+"_";
+  exp_id=exp_id+str(num_epochs)+"_";
+  exp_id=exp_id+learning_method+"_";
+  exp_id=exp_id+str(learning_rate)+"_";
+  exp_id=exp_id+regularization;
+  
+  return exp_id;
 
-
-
-
-
-
+def save_experiment(targets,
+                    predicted,
+                    cost,
+                    exp_network,
+                    num_layers,
+                    num_neurons,
+                    batch_size,
+                    num_epochs,
+                    learning_method,
+                    learning_rate,
+                    regularization,
+                    exp_id,
+                    save_path):
+  """
+  Save experiment data
+  
+  Parameters 
+  ----------
+  targets : array
+      1-d array of target output
+  predicted : array
+      1-d array of predicted output
+  cost : array
+      2 x num_epochs matrix
+      1st row : train cost
+      2nd row : test cost
+  exp_network : string
+      RNN/Feedforward
+  num_layers : int
+      number of feedforward hidden layers
+  num_neurons : int
+      number of neurons for each hidden layers
+      fixed for simplify situation
+  batch_size : int
+      size of each mini-batch
+  num_epochs : int
+      total number of training epochs
+  learning_method : string
+      SGD, momentum SGD, AdaGrad, RMSprop
+  learning_rate : float
+      Learning rate of training algorithm
+  regularization : string
+      Dropout / L2 regularization
+  exp_id : string
+      identifier of experiment
+  save_path : string
+      save path of data, to directory level
+      
+  Returns
+  -------
+  A saved pkl file that records the experiment
+  """
+  
+  exp_data={};
+  
+  exp_data['targets']=targets;
+  exp_data['predicted']=predicted;
+  exp_data['cost']=cost;
+  exp_data['exp_network']=exp_network;
+  exp_data['num_layers']=num_layers;
+  exp_data['num_neurons']=num_neurons;
+  exp_data['batch_size']=batch_size;
+  exp_data['num_epochs']=num_epochs;
+  exp_data['learning_method']=learning_method;
+  exp_data['learning_rate']=learning_rate;
+  exp_data['regularization']=regularization;
+  exp_data['exp_id']=exp_id;
+  
+  f=file(save_path+exp_id+".pkl", "wb");
+  pickle.dump(exp_data, f, protocol=pickle.HIGHEST_PROTOCOL);
+  f.close();
+  
+  pass

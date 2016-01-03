@@ -6,7 +6,9 @@ Neural Network Solution to Rolling Force Prediction
 
 + Data preparation and pre-processing [2015-12-30]
 + Basic Feedforward and Recurrent networks are set up [2015-12-31]
-+ Drawing figure [TODO]
++ Drawing figure [2016-01-02]
++ Function of constructing experiment identifier. [2016-01-03]
++ Experiment documentation code [2016-01-03]
 + Complete experiment setup [TODO]
 
 ## Notes
