@@ -199,7 +199,6 @@ def create_exp_id(exp_network,
                   batch_size,
                   num_epochs,
                   learning_method,
-                  learning_rate,
                   regularization):
   """
   Create identifier for particular experiment.
@@ -219,8 +218,6 @@ def create_exp_id(exp_network,
       total number of training epochs
   learning_method : string
       SGD, momentum SGD, AdaGrad, RMSprop
-  learning_rate : float
-      Learning rate of training algorithm
   regularization : string
       Dropout / L2 regularization
       
@@ -236,13 +233,14 @@ def create_exp_id(exp_network,
   exp_id=exp_id+str(batch_size)+"_";
   exp_id=exp_id+str(num_epochs)+"_";
   exp_id=exp_id+learning_method+"_";
-  exp_id=exp_id+str(learning_rate)+"_";
   exp_id=exp_id+regularization;
   
   return exp_id;
 
-def save_experiment(targets,
-                    predicted,
+def save_experiment(train_targets,
+                    train_predicted,
+                    test_targets,
+                    test_predicted,
                     cost,
                     exp_network,
                     num_layers,
@@ -250,7 +248,6 @@ def save_experiment(targets,
                     batch_size,
                     num_epochs,
                     learning_method,
-                    learning_rate,
                     regularization,
                     exp_id,
                     save_path):
@@ -280,8 +277,6 @@ def save_experiment(targets,
       total number of training epochs
   learning_method : string
       SGD, momentum SGD, AdaGrad, RMSprop
-  learning_rate : float
-      Learning rate of training algorithm
   regularization : string
       Dropout / L2 regularization
   exp_id : string
@@ -296,8 +291,10 @@ def save_experiment(targets,
   
   exp_data={};
   
-  exp_data['targets']=targets;
-  exp_data['predicted']=predicted;
+  exp_data['train_targets']=train_targets;
+  exp_data['train_predicted']=train_predicted;
+  exp_data['test_targets']=test_targets;
+  exp_data['test_predicted']=test_predicted;
   exp_data['cost']=cost;
   exp_data['exp_network']=exp_network;
   exp_data['num_layers']=num_layers;
@@ -305,7 +302,6 @@ def save_experiment(targets,
   exp_data['batch_size']=batch_size;
   exp_data['num_epochs']=num_epochs;
   exp_data['learning_method']=learning_method;
-  exp_data['learning_rate']=learning_rate;
   exp_data['regularization']=regularization;
   exp_data['exp_id']=exp_id;
   
@@ -313,4 +309,4 @@ def save_experiment(targets,
   pickle.dump(exp_data, f, protocol=pickle.HIGHEST_PROTOCOL);
   f.close();
   
-  pass
+  return ;

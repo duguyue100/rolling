@@ -121,7 +121,7 @@ def setup_ff_network(in_dim,
   activations=[Rectifier()];
   dims=[in_dim];
   
-  for i in xrange(num_layers-1):
+  for i in xrange(num_layers):
     activations.append(Rectifier());
     dims.append(num_neurons);
   
@@ -134,7 +134,7 @@ def setup_ff_network(in_dim,
           
   return net;
 
-def setup_algorithms(cost, cg, method, learning_rate=None):
+def setup_algorithms(cost, cg, method):
   """
   setup training algorithm
   
@@ -156,13 +156,13 @@ def setup_algorithms(cost, cg, method, learning_rate=None):
   """
   
   if method is "sgd":
-    step_rule=Scale(learning_rate=learning_rate);
+    step_rule=Scale(learning_rate=0.01);
   elif method is "momentum":
-    step_rule=Momentum(learning_rate=learning_rate, momentum=0.95);
+    step_rule=Momentum(learning_rate=0.01, momentum=0.95);
   elif method is "adagrad":
-    step_rule=AdaGrad(learning_rate=learning_rate);
+    step_rule=AdaGrad();
   elif method is "rmsprop":
-    step_rule=RMSProp(learning_rate=learning_rate);
+    step_rule=RMSProp();
   
   algorithm = GradientDescent(cost=cost, parameters=cg.parameters,
                               step_rule=step_rule);
