@@ -162,6 +162,39 @@ def get_data(dataset):
   
   return features, targets;
 
+def get_iter_data(dataset):
+  """
+  Get data from a iterable dataset
+  
+  Parameters
+  ----------
+  dataset : IterableDataset
+      dataset that can provide features and targets
+      
+  Returns
+  -------
+  features : Dictionary
+      store feature matrices
+  targets : Dictionary
+      store target vectors
+  """
+  
+  num_samples=dataset.num_examples;
+  
+  handle = dataset.open();
+  features=[]; targets=[];
+  for i in xrange(num_samples):
+    data=dataset.get_data(handle);
+    features.append(data[0]);
+    targets.append(data[1]);
+    
+  dataset.close(handle);
+  
+  targets_arr=targets[0];
+  for i in xrange(1, num_samples):
+    targets_arr=np.vstack((targets_arr, targets[i]));
+  
+  return features, targets_arr;
 
 def get_cost_data(monitor, num_batches, num_epochs):
   """
