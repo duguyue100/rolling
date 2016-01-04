@@ -25,7 +25,7 @@ For this cleaned data, I removed mean and standard deviation for each sample in 
 Then PCA is carried out. I found that for rotated data, first 4 dimensions are able to preserve over 99% distribution.
 In this case, I removed the rest 6 dimension.
 
-Therefore, now the input data is a matrix of 4*18000, and output data is a vector of 1*18000.
+Therefore, now the input data is a matrix of `4*18000`, and output data is a vector of `1*18000`.
 
 By the way, output data is not touched during the pre-processing. 
 
