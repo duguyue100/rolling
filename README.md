@@ -41,6 +41,41 @@ Here input data is called "features" and output data is called "targets".
 
 ### Experiment setup
 
+Each experiment is determined by several factors:
+
++ the type of network: Feedforward Network or RNN Network
++ input dimension, in here it's fixed: 4
++ output dimension, in here it's fixed too: 1
++ number of feedforward hidden layers, since we just use single LSTM layer in RNN network, so it's best to feedforward layers to quantify depth.
++ number of neurons: to simplify the problem, each feedforward layer has same number of neurons.
++ training method: all experiments are trained with Gradient-based optimization algorithms, here we compare 4 of them: SGD, momentum SGD, AdaGrad and RMSprop.
++ regularization method: we compare L2 regularization and dropout in experiments.
++ batch size: number of samples in each mini-batch.
++ number of epochs: total training steps of a experiment.
+
+Based on above information, each experiment is identified by one unique ID, the format is as following:
+
+```
+[Feedforward/RNN]_[number of hidden layers]_[number of neurons]_[batch size]_[number of epochs]_[training algorithm]_[regularization] 
+```
+
+Each experiment is documented by a `pkl` file by using `cPickle` package. Each file saves all relevant output information:
+
+|Documented Data                              |Identifier       |
+|---------------------------------------------|-----------------|
+|target output of training set                |`train_targets`  |
+|predicted output of training set             |`train_predicted`|
+|target output of testing set                 |`test_targets`   |
+|predicted output of testing set              |`test_predicted` |
+|cost matrix for both training and testing set|`cost`           |
+|type of network                              |`exp_network`    |
+|number of feedforward hidden layers          |`num_layers`     |
+|number of neurons                            |`num_neurons`    |
+|batch size for each mini-batch               |`batch_size`     |
+|number of training epochs                    |`num_epochs`     |
+|learning algorithm method                    |`learning_method`|
+|regularization method                        |`regularization` |
+|experiment Identifier                        |`exp_id`         |
 
 ## Contacts
 
