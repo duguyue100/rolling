@@ -4,9 +4,10 @@ Discover usage of HDF5 datasets
 Author: Yuhuang Hu
 Email : duguyue100@gmail.com
 """
+import sys;
+sys.path.append("..");
 
 import cPickle as pickle;
-
 import rolling.draw as draw;
 
 f=open("../results/feedforward_1_10_200_200_sgd_l2.pkl", 'r');

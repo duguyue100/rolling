@@ -60,9 +60,6 @@ def draw_epochs_cost(cost, filename):
   train_min_x=np.argmin(cost[0,:]);
   test_min_x=np.argmin(cost[0,:]);
   
-  print train_min, train_min_x;
-  print test_min, test_min_x;
-
   plt.figure();
   train_cost,=plt.plot(x, cost[0,:], linestyle='-', color='k', linewidth=2, label="train cost");
   test_cost,=plt.plot(x, cost[1,:], linestyle='--', color='k', linewidth=2, label="test cost");
@@ -106,7 +103,6 @@ def draw_target_predicted(target, predicted, filename):
   data=data[1:, :];
   
   coeff=np.polyfit(data[:,0], data[:,1], 1);
-  print coeff;
   fit_fun=np.poly1d(coeff);
   x=np.array(xrange(1000, 5000));
   y=fit_fun(x);
