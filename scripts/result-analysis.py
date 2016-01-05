@@ -44,7 +44,7 @@ def search(result_path, network_type, num_layers,
       a list of relevant result files
   """
   all_layers=xrange(1,6);
-  all_neurons=xrange(10, 310, 10);
+  all_neurons=xrange(10, 305, 5);
   all_methods=["sgd", "momentum", "adagrad", "rmsprop"];
   all_regularization=["dropout", "l2"];
   result_list=[];
@@ -135,11 +135,11 @@ def analysis(result_path, network_type, num_layers,
     assert regularization is not "all", "regularization shouldn't be all in neurons-cost mode";
     results_list=search(result_path, network_type, num_layers, num_neurons,
                         batch_size, num_epochs, training_method, regularization);
-    cost_arr=np.zeros((5, 30));
+    cost_arr=np.zeros((5, 60));
     
     for i in xrange(5):
-      for k in xrange(30):
-        cost_arr[i,k]=np.min(results_list[i*30+k]['cost'][1,:]);
+      for k in xrange(60):
+        cost_arr[i,k]=np.min(results_list[i*60+k]['cost'][1,:]);
       
     draw.draw_neurons_layers_cost(cost, 
                                   ds.create_exp_id(exp_network, "all", "all", batch_size, 
