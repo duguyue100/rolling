@@ -171,9 +171,9 @@ parser.add_argument("--results-path", type=str, default="../results/",
 parser.add_argument("--network-type", type=str, default="feedforward",
                     help="Type of network: feedforward or RNN.");
 parser.add_argument("--num-layers", type=str, default="1",
-                    help="Number of hidden feedforward layers.");
+                    help="Number of hidden feedforward layers: 1-5, all");
 parser.add_argument("--num_neurons", type=str, default="10",
-                    help="Number of neurons.");
+                    help="Number of neurons: 10-300, all ");
 parser.add_argument("--batch-size", type=str, default="200",
                     help="Batch size of each mini-batch samples.");
 parser.add_argument("--num-epochs", type=str, default="200",

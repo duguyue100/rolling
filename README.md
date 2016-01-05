@@ -105,9 +105,9 @@ optional arguments:
   --network-type NETWORK_TYPE
                         Type of network: feedforward or RNN.
   --num-layers NUM_LAYERS
-                        Number of hidden feedforward layers.
+                        Number of hidden feedforward layers: 1-5, all
   --num_neurons NUM_NEURONS
-                        Number of neurons.
+                        Number of neurons: 10-300, all
   --batch-size BATCH_SIZE
                         Batch size of each mini-batch samples.
   --num-epochs NUM_EPOCHS
@@ -118,7 +118,6 @@ optional arguments:
                         Regularization method: l2, dropout, none
   --mode MODE           output mode: targets-predicted, epochs-cost, cost-
                         algorithm, neurons-cost, cost-regular
-
 ```
 
 ## Contacts
