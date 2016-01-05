@@ -79,6 +79,48 @@ Each experiment is documented by a `pkl` file by using `cPickle` package. Each f
 |regularization method                        |`regularization` |
 |experiment Identifier                        |`exp_id`         |
 
+### Result analysis
+
+I wrote a script that automatically analyzes the results and produce the graph.
+The script takes several arguments, and will produce 5 kinds of graph for presenting the results.
+
+Further will include summary of the results if needed.
+
+```
+$ python result-analysis.py -h
+usage: result-analysis.py [-h] [--results-path RESULTS_PATH]
+                          [--network-type NETWORK_TYPE]
+                          [--num-layers NUM_LAYERS]
+                          [--num_neurons NUM_NEURONS]
+                          [--batch-size BATCH_SIZE] [--num-epochs NUM_EPOCHS]
+                          [--training-method TRAINING_METHOD]
+                          [--regularization REGULARIZATION] [--mode MODE]
+
+Result Analysis for Rolling Force Prediction Problem
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --results-path RESULTS_PATH
+                        Destination of result files.
+  --network-type NETWORK_TYPE
+                        Type of network: feedforward or RNN.
+  --num-layers NUM_LAYERS
+                        Number of hidden feedforward layers.
+  --num_neurons NUM_NEURONS
+                        Number of neurons.
+  --batch-size BATCH_SIZE
+                        Batch size of each mini-batch samples.
+  --num-epochs NUM_EPOCHS
+                        Total training epochs for training.
+  --training-method TRAINING_METHOD
+                        Training method: sgd, momentum, adagrad, rmsprop.
+  --regularization REGULARIZATION
+                        Regularization method: l2, dropout, none
+  --mode MODE           output mode: targets-predicted, epochs-cost, cost-
+                        algorithm, neurons-cost, cost-regular
+
+```
+
 ## Contacts
 
 Yuhuang Hu  
