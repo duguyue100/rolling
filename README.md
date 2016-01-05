@@ -14,7 +14,7 @@ Neural Network Solution to Rolling Force Prediction
 + Update drawing functions [2015-01-05]
 + Update README [2016-01-05]
 + Update RNN by clipping the weights [TODO]
-+ Write some searching functions [TODO]
++ Write some searching functions [2016-01-05]
 
 ## Notes
 
