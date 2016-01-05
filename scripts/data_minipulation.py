@@ -18,4 +18,5 @@ cost=data['cost'];
 print train_targets.shape
 print train_predicted.shape;
 
-draw.draw_epochs_cost(cost, "test_cost_for_complete")
+#draw.draw_epochs_cost(cost, "test_for_draw")
+draw.draw_target_predicted(train_targets, train_predicted, "test_for_draw")
