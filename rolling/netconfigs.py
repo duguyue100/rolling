@@ -82,12 +82,12 @@ def create_cg_and_cost(y, y_hat,
   cost=AbsoluteError().apply(y, y_hat);
   cg=ComputationGraph(cost);
   
-  if regularization is "l2":
+  if regularization == "l2":
     cost+=l2_regularization(cg);
     regularized_cg=cg;
-  elif regularization is "dropout":
+  elif regularization == "dropout":
     regularized_cg=dropout(cg);
-  elif regularization is "none":
+  elif regularization == "none":
     regularized_cg=cg;
     
   cost.name="cost";
