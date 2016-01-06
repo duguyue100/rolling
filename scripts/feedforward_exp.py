@@ -30,6 +30,7 @@ def rf_ff_config():
   in_dim=0;          # input dimension of network
   out_dim=0;         # output dimension of network
   num_layers=0;      # maximum number of feedforward hidden layers
+  start_neurons=0;   # start point of setting number of neurons
   num_neurons=0;     # maximum limit of number of neurons
   batch_size=0;      # batch size of each mini-batch
   num_epochs=0;      # total number of epochs
@@ -40,6 +41,7 @@ def rf_ff_experiment(data_name,
                      in_dim,
                      out_dim,
                      num_layers,
+                     start_neurons,
                      num_neurons,
                      batch_size,
                      num_epochs):
@@ -49,7 +51,7 @@ def rf_ff_experiment(data_name,
   regularization=['l2', 'dropout']; # regularization in list
   
   for n_layers in xrange(1, num_layers+1):
-    for n_neurons in xrange(10, num_neurons+5, 5):
+    for n_neurons in xrange(start_neurons, num_neurons+5, 5):
       for method in methods:
         for regular in regularization:
           # setup network

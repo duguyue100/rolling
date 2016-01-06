@@ -5,6 +5,7 @@
 	"out_dim": 1,
 	"num_layers": 5,
 	"num_neurons": 300,
+	"start_neurons": 10,
 	"batch_size": 200,
 	"num_epochs": 200
 }

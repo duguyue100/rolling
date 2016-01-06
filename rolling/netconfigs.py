@@ -5,7 +5,7 @@ Author: Yuhuang Hu
 Email : duguyue100@gmail.com
 """
 
-from blocks.algorithms import GradientDescent, Scale, Momentum, AdaGrad, RMSProp;
+from blocks.algorithms import GradientDescent, Scale, Momentum, AdaGrad, RMSProp, StepClipping, CompositeRule;
 from blocks.bricks import MLP, Rectifier;
 from blocks.bricks.cost import SquaredError, AbsoluteError;
 from blocks.filter import VariableFilter;
@@ -134,7 +134,7 @@ def setup_ff_network(in_dim,
           
   return net;
 
-def setup_algorithms(cost, cg, method):
+def setup_algorithms(cost, cg, method, type="ff"):
   """
   setup training algorithm
   
@@ -155,14 +155,17 @@ def setup_algorithms(cost, cg, method):
       Gradient Descent algorithm based on different optimization method
   """
   
-  if method is "sgd":
+  if method == "sgd":
     step_rule=Scale(learning_rate=0.01);
-  elif method is "momentum":
+  elif method == "momentum":
     step_rule=Momentum(learning_rate=0.01, momentum=0.95);
-  elif method is "adagrad":
+  elif method == "adagrad":
     step_rule=AdaGrad();
-  elif method is "rmsprop":
+  elif method == "rmsprop":
     step_rule=RMSProp();
+    
+  if type=="RNN":
+    step_rule=CompositeRule([StepClipping(1.0), step_rule]);
   
   algorithm = GradientDescent(cost=cost, parameters=cg.parameters,
                               step_rule=step_rule);

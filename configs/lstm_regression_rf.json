@@ -4,7 +4,8 @@
 	"in_dim": 4,
 	"out_dim": 1,
 	"num_layers": 5,
-	"num_neurons": 10,
+	"num_neurons": 50,
+	"start_neurons": 30,
 	"batch_size": 200,
-	"num_epochs": 10
+	"num_epochs": 200
 }
