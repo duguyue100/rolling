@@ -145,7 +145,7 @@ def draw_cost_algorithms(cost, filename):
   sgd,=plt.plot(x, cost[0,:], linestyle='-', linewidth=2, color='k', label="SGD");  # SGD
   momentum,=plt.plot(x, cost[1,:], linestyle='--', linewidth=2, color='k', label="Momentum SGD"); # momentum SGD
   adagrad,=plt.plot(x, cost[2,:], linestyle='-.', linewidth=2, color='k', label="AdaGrad"); # AdaGrad
-  rmsprop,=plt.plot(x, cost[3,:], linestye=':', linewidth=2, color='k', label="RMSprop");  # RMSprop
+  rmsprop,=plt.plot(x, cost[3,:], linestyle=':', linewidth=2, color='k', label="RMSprop");  # RMSprop
   plt.ylabel("cost");
   plt.xlabel("epochs");
   plt.legend(handles=[sgd, momentum, adagrad, rmsprop]);
