@@ -81,6 +81,12 @@ Each experiment is documented by a `pkl` file by using `cPickle` package. Each f
 
 ### Conduct Experiment
 
+Open a terminal and key in following commands (assume you have the same structure as mine):
+
+```
+cd workspace/rolling/scripts
+```
+
 For Feedforward Regression experiment:
 
 ```
