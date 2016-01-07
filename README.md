@@ -79,6 +79,20 @@ Each experiment is documented by a `pkl` file by using `cPickle` package. Each f
 |regularization method                        |`regularization` |
 |experiment Identifier                        |`exp_id`         |
 
+### Conduct Experiment
+
+For Feedforward Regression experiment:
+
+```
+python feedforward_exp.py with ../configs/ff_regression_rf_max.json
+```
+
+For LSTM Regression experiment:
+
+```
+python lstm_exp.py with ../configs/lstm_regression_rf_max.json
+```
+
 ### Result analysis
 
 I wrote a script that automatically analyzes the results and produce the graph.
@@ -91,7 +105,7 @@ $ python result-analysis.py -h
 usage: result-analysis.py [-h] [--results-path RESULTS_PATH]
                           [--network-type NETWORK_TYPE]
                           [--num-layers NUM_LAYERS]
-                          [--num_neurons NUM_NEURONS]
+                          [--num-neurons NUM_NEURONS]
                           [--batch-size BATCH_SIZE] [--num-epochs NUM_EPOCHS]
                           [--training-method TRAINING_METHOD]
                           [--regularization REGULARIZATION] [--mode MODE]
@@ -106,7 +120,7 @@ optional arguments:
                         Type of network: feedforward or RNN.
   --num-layers NUM_LAYERS
                         Number of hidden feedforward layers: 1-5, all
-  --num_neurons NUM_NEURONS
+  --num-neurons NUM_NEURONS
                         Number of neurons: 10-300, all
   --batch-size BATCH_SIZE
                         Batch size of each mini-batch samples.
