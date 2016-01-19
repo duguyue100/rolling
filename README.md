@@ -15,6 +15,7 @@ Neural Network Solution to Rolling Force Prediction
 + Update README [2016-01-05]
 + Update RNN by clipping the weights [2016-01-07] [refer to [this](https://github.com/mila-udem/blocks-examples/blob/master/reverse_words/__init__.py#L199-L201)]
 + Write some searching functions [2016-01-05]
++ Update find best functions [2016-01-19]
 
 ## Notes
 
