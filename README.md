@@ -141,6 +141,36 @@ optional arguments:
                         algorithm, neurons-cost, cost-regular
 ```
 
+### Find Best Result
+
+The script `find-best.py` finds the best result from all available experiment results.
+You can run the script by
+```
+$ python find-best.py
+```
+
+The specifications of the script as following:
+
+```
+$ python find-best.py --help
+usage: find-best.py [-h] [--results-path RESULTS_PATH]
+                    [--network-type NETWORK_TYPE] [--batch-size BATCH_SIZE]
+                    [--num-epochs NUM_EPOCHS]
+
+Find Best Result From Rolling Experiments
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --results-path RESULTS_PATH
+                        Destination of result files.
+  --network-type NETWORK_TYPE
+                        Type of network: feedforward or RNN.
+  --batch-size BATCH_SIZE
+                        Batch size of each mini-batch samples.
+  --num-epochs NUM_EPOCHS
+                        Total training epochs for training.
+```
+
 ## Contacts
 
 Yuhuang Hu  
