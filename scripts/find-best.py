@@ -44,8 +44,9 @@ def search(results_path, network_type, batch_size, num_epochs):
                     exp_id = ds.create_exp_id(network_type, n_layers,
                                               n_neurons, batch_size,
                                               num_epochs, method, regular)
-                    if os.path.exists(results_path + exp_id + ".pkl"):
-                        with open(results_path + exp_id + ".pkl", 'r') as f:
+                    file_path = os.path.join(results_path, exp_id+".pkl")
+                    if os.path.exists(file_path):
+                        with open(file_path, 'r') as f:
                             result_list.append(pickle.load(f))
 
     return result_list
@@ -117,7 +118,8 @@ def analysis(results_path, network_type, batch_size, num_epochs):
 parser = argparse.ArgumentParser(
     description="Find Best Result From Rolling Experiments")
 
-parser.add_argument("--results-path", type=str, default="../results/",
+parser.add_argument("--results-path", type=str,
+                    default="/Users/dgyHome/Downloads/results",
                     help="Destination of result files.")
 parser.add_argument("--network-type", type=str, default="feedforward",
                     help="Type of network: feedforward or RNN.")

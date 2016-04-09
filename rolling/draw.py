@@ -65,7 +65,7 @@ def draw_epochs_cost(cost, filename):
     plt.ylabel("cost")
     plt.xlabel("epochs")
     plt.legend(handles=[train_cost, test_cost])
-    plt.savefig("../results/" + filename + ".png", dpi=200)
+    plt.savefig(filename + ".png", dpi=200)
     # plt.savefig("../results/" + filename + ".eps", dpi=200)
 
 
@@ -144,7 +144,7 @@ def draw_cost_algorithms(cost, filename):
     plt.ylabel("cost")
     plt.xlabel("epochs")
     plt.legend(handles=[sgd, momentum, adagrad, rmsprop])
-    plt.savefig("../results/" + filename + ".png", dpi=200)
+    plt.savefig(filename + ".png", dpi=200)
     # plt.savefig("../results/" + filename + ".eps", dpi=200)
 
 
@@ -174,19 +174,19 @@ def draw_neurons_layers_cost(cost, filename):
 
     plt.figure()
     lin_1, = plt.plot(x, cost[0, :], linestyle='-', marker='v', color='k',
-                      linewidth=2, labels='1 hidden layer')  # 1 hidden layer
+                      linewidth=2, label='1 hidden layer')  # 1 hidden layer
     lin_2, = plt.plot(x, cost[1, :], linestyle='-', marker='s', color='k',
-                      linewidth=2, labels='2 hidden layers')  # 2 hidden layers
+                      linewidth=2, label='2 hidden layers')  # 2 hidden layers
     lin_3, = plt.plot(x, cost[2, :], linestyle='-', marker='p', color='k',
-                      linewidth=2, labels='3 hidden layers')  # 3 hidden layers
+                      linewidth=2, label='3 hidden layers')  # 3 hidden layers
     lin_4, = plt.plot(x, cost[3, :], linestyle='-', marker='h', color='k',
-                      linewidth=2, labels='4 hidden layers')  # 4 hidden layers
+                      linewidth=2, label='4 hidden layers')  # 4 hidden layers
     lin_5, = plt.plot(x, cost[4, :], linestyle='-', marker='*', color='k',
-                      linewidth=2, labels='5 hidden layers')  # 5 hidden layers
+                      linewidth=2, label='5 hidden layers')  # 5 hidden layers
     plt.ylabel("cost")
     plt.xlabel("number of neurons")
     plt.legend(handles=[lin_1, lin_2, lin_3, lin_4, lin_5])
-    plt.savefig("../results/" + filename + ".png", dpi=200)
+    plt.savefig(filename + ".png", dpi=200)
     # plt.savefig("../results/" + filename + ".eps", dpi=200)
 
 
@@ -209,11 +209,11 @@ def draw_cost_dropout(cost, filename):
 
     plt.figure()
     dropout, = plt.plot(x, cost[0, :], linestyle='-', color='k',
-                        linewidth=2, labels="Dropout")  # without dropout
+                        linewidth=2, label="Dropout")  # without dropout
     l2, = plt.plot(x, cost[1, :], linestyle='--', color='k',
-                   linewidth=2, labels="L2")     # with dropout
+                   linewidth=2, label="L2")     # with dropout
     plt.ylabel("cost")
     plt.xlabel("eopchs")
     plt.legend(handles=[dropout, l2])
-    plt.savefig("../results/" + filename + ".png", dpi=200)
+    plt.savefig(filename + ".png", dpi=200)
     # plt.savefig("../results/" + filename + ".eps", dpi=200)

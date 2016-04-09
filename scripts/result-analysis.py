@@ -138,8 +138,9 @@ def analysis(results_path, network_type, num_layers,
                               num_neurons, batch_size, num_epochs,
                               training_method, regularization)
         result = results_list[0]
-        draw.draw_epochs_cost(result['cost'], result[
-                              'exp_id'] + "_epochs-cost")
+        fn = os.path.join(results_path, "images",
+                          result['exp_id']+"_epochs-cost")
+        draw.draw_epochs_cost(result['cost'], fn)
     elif mode == "cost-algorithm":
         assert num_layers != "all", "num-layers should be 1-5 \
                                      in cost-algorithm mode"
@@ -155,11 +156,13 @@ def analysis(results_path, network_type, num_layers,
         cost_arr = results_list[0]['cost'][1, :]
         for k in xrange(1, len(results_list)):
             cost_arr = np.vstack((cost_arr, results_list[k]['cost'][1, :]))
-        draw.draw_cost_algorithms(cost_arr,
-                                  (ds.create_exp_id(network_type, num_layers,
-                                   num_neurons, batch_size,
-                                   num_epochs, "all",
-                                   regularization)+"_cost-algorithm"))
+
+        fn = ds.create_exp_id(network_type, num_layers,
+                              num_neurons, batch_size,
+                              num_epochs, "all",
+                              regularization)
+        fn = os.path.join(results_path, "images", fn+"_cost-algorithm")
+        draw.draw_cost_algorithms(cost_arr, fn)
     elif mode == "neurons-cost":
         assert num_layers == "all", "num-layers should be all \
                                      in neurons-cost mode"
@@ -172,18 +175,16 @@ def analysis(results_path, network_type, num_layers,
         results_list = search(results_path, network_type, num_layers,
                               num_neurons, batch_size, num_epochs,
                               training_method, regularization)
-        cost_arr = np.zeros((5, 60))
+        cost_arr = np.zeros((5, 59))
 
         for i in xrange(5):
-            for k in xrange(60):
-                cost_arr[i, k] = np.min(results_list[i * 60 + k]['cost'][1, :])
+            for k in xrange(59):
+                cost_arr[i, k] = np.min(results_list[i * 59 + k]['cost'][1, :])
 
-        draw.draw_neurons_layers_cost(cost_arr,
-                                      (ds.create_exp_id(
-                                       network_type, "all", "all",
-                                       batch_size, num_epochs,
-                                       training_method, regularization) +
-                                       "_neurons-cost"))
+        fn = ds.create_exp_id(network_type, "all", "all", batch_size,
+                              num_epochs, training_method, regularization)
+        fn = os.path.join(results_path, "images", fn+"_neurons-cost")
+        draw.draw_neurons_layers_cost(cost_arr, fn)
 
     elif mode == "cost-regular":
         assert num_layers != "all", "num-layers should be 1-5 \
@@ -199,11 +200,10 @@ def analysis(results_path, network_type, num_layers,
                               training_method, regularization)
         cost_arr = results_list[0]['cost'][1, :]
         cost_arr = np.vstack((cost_arr, results_list[1]['cost'][1, :]))
-        draw.draw_cost_dropout(cost_arr,
-                               ds.create_exp_id(network_type, num_layers,
-                                                num_neurons, batch_size,
-                                                num_epochs, training_method,
-                                                "all") + "_cost-regular")
+        fn = ds.create_exp_id(network_type, num_layers, num_neurons,
+                              batch_size, num_epochs, training_method, "all")
+        fn = os.path.join(results_path, "images", fn+"_cost-regular")
+        draw.draw_cost_dropout(cost_arr, fn)
     else:
         print "Error"
     return
