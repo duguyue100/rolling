@@ -1,23 +1,19 @@
-"""
-Discover usage of HDF5 datasets
+"""Discover usage of HDF5 datasets.
 
 Author: Yuhuang Hu
 Email : duguyue100@gmail.com
 """
-import sys;
-sys.path.append("..");
+import cPickle as pickle
+import rolling.draw as draw
 
-import cPickle as pickle;
-import rolling.draw as draw;
+f = open("../results/feedforward_1_10_200_200_sgd_l2.pkl", 'r')
+data = pickle.load(f)
 
-f=open("../results/feedforward_1_10_200_200_sgd_l2.pkl", 'r');
-data=pickle.load(f);
-
-train_targets=data['train_targets'];
-train_predicted=data['train_predicted'];
-cost=data['cost'];
+train_targets = data['train_targets']
+train_predicted = data['train_predicted']
+cost = data['cost']
 print train_targets.shape
-print train_predicted.shape;
+print train_predicted.shape
 
-#draw.draw_epochs_cost(cost, "test_for_draw")
+# draw.draw_epochs_cost(cost, "test_for_draw")
 draw.draw_target_predicted(train_targets, train_predicted, "test_for_draw")
