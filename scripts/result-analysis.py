@@ -5,6 +5,7 @@ Author: Yuhuang Hu
 Email : duguyue100@gmail.com
 """
 
+import os
 import argparse
 import cPickle as pickle
 import numpy as np
@@ -66,7 +67,8 @@ def search(results_path, network_type, num_layers,
                     exp_id = ds.create_exp_id(network_type, n_layers,
                                               n_neurons, batch_size,
                                               num_epochs, method, regular)
-                    with open(results_path + exp_id + ".pkl", 'r') as f:
+                    file_path = os.path.join(results_path, exp_id+".pkl")
+                    with open(file_path, 'r') as f:
                         result_list.append(pickle.load(f))
 
     return result_list
