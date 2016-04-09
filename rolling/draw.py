@@ -1,13 +1,10 @@
-"""
-Some drawing functions for producing right figures
+"""Some drawing functions for producing right figures.
 
 Author: Yuhuang Hu
 Email : duguyue100@gmail.com
 """
 
 import numpy as np
-import matplotlib
-matplotlib.use('tkagg')
 import matplotlib.pyplot as plt
 
 
@@ -29,7 +26,7 @@ def draw_rf_boxplot(data, filename):
     plt.boxplot(data, color='k')
     plt.ylabel("Rolling Force")
     plt.savefig("../results/" + filename + ".png", dpi=200)
-    plt.savefig("../results/" + filename + ".eps", dpi=200)
+    # plt.savefig("../results/" + filename + ".eps", dpi=200)
 
 
 def draw_epochs_cost(cost, filename):
@@ -69,9 +66,7 @@ def draw_epochs_cost(cost, filename):
     plt.xlabel("epochs")
     plt.legend(handles=[train_cost, test_cost])
     plt.savefig("../results/" + filename + ".png", dpi=200)
-    plt.savefig("../results/" + filename + ".eps", dpi=200)
-
-    return
+    # plt.savefig("../results/" + filename + ".eps", dpi=200)
 
 
 def draw_target_predicted(target, predicted, filename):
@@ -112,10 +107,8 @@ def draw_target_predicted(target, predicted, filename):
     plt.axis([1500, 4500, 1500, 4500])
     plt.xlabel("Target outputs")
     plt.ylabel("Predicted outputs")
-    plt.savefig("../results/" + filename + ".png", dpi=200)
-    plt.savefig("../results/" + filename + ".eps", dpi=200)
-
-    return
+    plt.savefig(filename + ".png", dpi=200)
+    # plt.savefig(filename + ".eps", dpi=200)
 
 
 def draw_cost_algorithms(cost, filename):
@@ -152,9 +145,7 @@ def draw_cost_algorithms(cost, filename):
     plt.xlabel("epochs")
     plt.legend(handles=[sgd, momentum, adagrad, rmsprop])
     plt.savefig("../results/" + filename + ".png", dpi=200)
-    plt.savefig("../results/" + filename + ".eps", dpi=200)
-
-    return
+    # plt.savefig("../results/" + filename + ".eps", dpi=200)
 
 
 def draw_neurons_layers_cost(cost, filename):
@@ -196,9 +187,7 @@ def draw_neurons_layers_cost(cost, filename):
     plt.xlabel("number of neurons")
     plt.legend(handles=[lin_1, lin_2, lin_3, lin_4, lin_5])
     plt.savefig("../results/" + filename + ".png", dpi=200)
-    plt.savefig("../results/" + filename + ".eps", dpi=200)
-
-    return
+    # plt.savefig("../results/" + filename + ".eps", dpi=200)
 
 
 def draw_cost_dropout(cost, filename):
@@ -227,6 +216,4 @@ def draw_cost_dropout(cost, filename):
     plt.xlabel("eopchs")
     plt.legend(handles=[dropout, l2])
     plt.savefig("../results/" + filename + ".png", dpi=200)
-    plt.savefig("../results/" + filename + ".eps", dpi=200)
-
-    return
+    # plt.savefig("../results/" + filename + ".eps", dpi=200)

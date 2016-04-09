@@ -115,12 +115,16 @@ def analysis(results_path, network_type, num_layers,
                               num_neurons, batch_size, num_epochs,
                               training_method, regularization)
         result = results_list[0]
+        train_fn = os.path.join(results_path, "images",
+                                result["exp_id"]+"_targets-predicted-train")
+        test_fn = os.path.join(results_path, "images",
+                               result['exp_id']+"_targets-predicted-test")
         draw.draw_target_predicted(result['train_targets'], result[
                                    'train_predicted'],
-                                   result['exp_id']+"_targets-predicted-train")
+                                   train_fn)
         draw.draw_target_predicted(result['test_targets'], result[
                                    'test_predicted'],
-                                   result['exp_id']+"_targets-predicted-test")
+                                   test_fn)
     elif mode == "epochs-cost":
         assert num_layers != "all", "num-layers should be 1-5 \
                                      in epochs-cost mode"
@@ -207,7 +211,8 @@ def analysis(results_path, network_type, num_layers,
 parser = argparse.ArgumentParser(
     description="Result Analysis for Rolling Force Prediction Problem")
 
-parser.add_argument("--results-path", type=str, default="./results/",
+parser.add_argument("--results-path", type=str,
+                    default="/Users/dgyHome/Downloads/results",
                     help="Destination of result files.")
 parser.add_argument("--network-type", type=str, default="feedforward",
                     help="Type of network: feedforward or RNN.")
@@ -217,7 +222,7 @@ parser.add_argument("--num-neurons", type=str, default="10",
                     help="Number of neurons: 10-300, all ")
 parser.add_argument("--batch-size", type=str, default="200",
                     help="Batch size of each mini-batch samples.")
-parser.add_argument("--num-epochs", type=str, default="200",
+parser.add_argument("--num-epochs", type=str, default="1000",
                     help="Total training epochs for training.")
 parser.add_argument("--training-method", type=str, default="sgd",
                     help="Training method: sgd, momentum, adagrad, rmsprop.")
