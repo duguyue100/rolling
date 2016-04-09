@@ -75,7 +75,7 @@ def search(results_path, network_type, num_layers,
 def analysis(results_path, network_type, num_layers,
              num_neurons, batch_size, num_epochs,
              training_method, regularization, mode):
-    """Analysis result from given arguments.
+    """An Analysis result from given arguments.
 
     Parameters
     ----------
@@ -172,11 +172,12 @@ def analysis(results_path, network_type, num_layers,
             for k in xrange(60):
                 cost_arr[i, k] = np.min(results_list[i * 60 + k]['cost'][1, :])
 
-        draw.draw_neurons_layers_cost(cost,
-                                      (ds.create_exp_id(network_type, "all",
-                                       "all", batch_size, num_epochs,
-                                       learning_method,
-                                       regularization) + "_neurons-cost"))
+        draw.draw_neurons_layers_cost(cost_arr,
+                                      (ds.create_exp_id(
+                                       network_type, "all", "all",
+                                       batch_size, num_epochs,
+                                       training_method, regularization) +
+                                       "_neurons-cost"))
 
     elif mode == "cost-regular":
         assert num_layers != "all", "num-layers should be 1-5 \
@@ -195,7 +196,7 @@ def analysis(results_path, network_type, num_layers,
         draw.draw_cost_dropout(cost_arr,
                                ds.create_exp_id(network_type, num_layers,
                                                 num_neurons, batch_size,
-                                                num_epochs, learning_method,
+                                                num_epochs, training_method,
                                                 "all") + "_cost-regular")
     else:
         print "Error"
@@ -204,7 +205,7 @@ def analysis(results_path, network_type, num_layers,
 parser = argparse.ArgumentParser(
     description="Result Analysis for Rolling Force Prediction Problem")
 
-parser.add_argument("--results-path", type=str, default="../results/",
+parser.add_argument("--results-path", type=str, default="./results/",
                     help="Destination of result files.")
 parser.add_argument("--network-type", type=str, default="feedforward",
                     help="Type of network: feedforward or RNN.")
